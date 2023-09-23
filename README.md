@@ -1,5 +1,9 @@
 # deploy-cloudrun
 
+## NOTE
+
+> This GitHub Action is being used as a workaround until the following PR is merged: [feat: enable using Cloud Run Job](https://github.com/google-github-actions/deploy-cloudrun/pull/422). It is recommended to use the [official Google deploy-cloudrun GitHub Action](https://github.com/google-github-actions/deploy-cloudrun).
+
 The `deploy-cloudrun` GitHub Action deploys to Google [Cloud Run][cloud-run]. It
 can deploy a container image or from source, and the resulting service URL is
 available as a GitHub Actions output for use in future steps.
@@ -52,8 +56,14 @@ jobs:
 
 ## Inputs
 
--   `service`: (Required, unless providing `metadata`) ID of the service or
+-   `service`: (Required, unless providing `metadata` or `job`) ID of the service or
     fully-qualified identifier of the service.
+
+-   `job`: (Required, unless providing `metadata` or `service`) ID of the job or
+    fully-qualified identifier of the job. If `job` and `service` are specified
+    then the `service` will be updated and the `job` will be ignored. Note that
+    the `job` must be created first. This will only update an existing `job`, it
+    will not deploy/create a new job.
 
 -   `image`: (Required, unless providing `metadata` or `source`) Fully-qualified
     name of the container image to deploy. For example:
